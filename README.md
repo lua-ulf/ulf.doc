@@ -1,4 +1,4 @@
-# ULF.doc
+# ulf.doc
 
 `ulf.doc` is a documentation module for ulf.
 

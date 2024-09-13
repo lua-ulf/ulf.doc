@@ -1,7 +1,7 @@
-#!/Users/al/dev/projects/ulf/workspace/ulf.doc/build/2.1.0-beta3/bin/lua
--- #!/usr/bin/env lua
+#!/usr/bin/env luajit
+
 local root = os.getenv("PWD")
 package.path = package.path .. ";" .. root .. "/lua/?.lua;" .. root .. "/lua/init/?.lua;"
-require("ulf.doc.gendocs.loader").init(true)
 
+require("ulf.doc.gendocs.loader").init(true)
 require("ulf.doc.gendocs").run()
