@@ -1,6 +1,10 @@
 #!/usr/bin/env luajit
+-- #!/opt/homebrew/bin/luajit
 
 local root = os.getenv("PWD")
+if not root:match("ulf%.doc$") then
+	root = root .. "/deps/ulf.doc"
+end
 package.path = package.path .. ";" .. root .. "/lua/?.lua;" .. root .. "/lua/init/?.lua;"
 
 require("ulf.doc.gendocs.loader").init(true)

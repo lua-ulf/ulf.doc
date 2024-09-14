@@ -1,7 +1,7 @@
 local busted = require("busted")
 
 local function debug_print(msg, ...)
-	local inspect = require("ulf.log.inspect")
+	local inspect = require("inspect")
 	msg = msg or ""
 	if type(msg) ~= "string" then
 		msg = inspect(msg)

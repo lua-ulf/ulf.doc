@@ -4,4 +4,4 @@
 ---@brief ]]
 
 ---@tag ulf.doc
----@config { ["name"] = "INTRODUCTION" }
+---@config { ["name"] = "Introduction" }

@@ -1,4 +1,4 @@
----@class ulf.doc.util.string
+---@class ulf.doc.util.string.exports
 local M = {}
 
 --- @class ulf.string.gsplit_opts
@@ -151,14 +151,6 @@ end
 function M.trim(s)
 	assert(type(s) == "string", "M.trim: expect s to be a string")
 	return s:match("^%s*(.*%S)") or ""
-end
-
----comment
----@param s string
----@return integer
-function M.strlen(s)
-	assert(type(s) == "string", "M.strlen: expect s to be a string")
-	return #s
 end
 
 return M

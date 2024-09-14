@@ -1,11 +1,13 @@
 ---@class ulf.doc.gendocs.backend.exports
 local M = {}
 local fs = require("ulf.doc.util.fs")
+local Util = require("ulf.doc.util")
 local Config = require("ulf.doc.gendocs.config")
 local core = require("ulf.doc.util.core")
 local _string = require("ulf.doc.util.string")
 local gsplit = _string.gsplit
 local split = _string.split
+local Debug = require("ulf.doc.util.debug")
 
 ---@class ulf.doc.gendocs.backend.runner
 local runner = {
@@ -32,7 +34,7 @@ function runner.vim.callback(files, output_file, debug)
 	require("ulf.doc.gendocs.loader").load(config)
 
 	if debug then
-		print_package_path()
+		Debug.dump_lua_path("all")
 	end
 
 	---@type {write:fun(...)}
@@ -75,13 +77,12 @@ function runner.vim.entrypoint(args)
 	for _, value in ipairs(Config.runtime_paths()) do
 		rtp_path_cmd = rtp_path_cmd .. 'vim.opt.rtp:append("' .. value .. '");'
 	end
-
-	local result = core.run_command({
-		"nvim",
+	local cmd_args = {
+		-- "nvim",
 		"--headless",
 		"-u",
 		fs.joinpath("scripts/minimal_init.lua"),
-		[[-c ' lua ]]
+		[[-c 'lua ]]
 			.. rtp_path_cmd
 			.. [[require("ulf.doc.gendocs.backend").runner.vim.callback("]]
 			.. args.files
@@ -91,8 +92,27 @@ function runner.vim.entrypoint(args)
 			.. tostring(args.d)
 			.. [[")']],
 		"-cq",
-	})
+	}
+
+	local result = Util.core.run_command("nvim", cmd_args)
 	print(result)
+	-- local result = core.run_command({
+	-- 	"nvim",
+	-- 	"--headless",
+	-- 	"-u",
+	-- 	fs.joinpath("scripts/minimal_init.lua"),
+	-- 	[[-c ' lua ]]
+	-- 		.. rtp_path_cmd
+	-- 		.. [[require("ulf.doc.gendocs.backend").runner.vim.callback("]]
+	-- 		.. args.files
+	-- 		.. [[","]]
+	-- 		.. output_file
+	-- 		.. [[","]]
+	-- 		.. tostring(args.d)
+	-- 		.. [[")']],
+	-- 	"-cq",
+	-- })
+	-- print(result)
 end
 
 M.runner = runner

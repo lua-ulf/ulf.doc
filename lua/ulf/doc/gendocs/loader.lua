@@ -1,29 +1,6 @@
 ---@class ulf.doc.gendocs.loader.exports
 local M = {}
-
-local function split(inputstr, sep)
-	if sep == nil then
-		sep = "%s"
-	end
-	local t = {}
-	for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
-		table.insert(t, str)
-	end
-	return t
-end
----comment
----@param kind 'path'|'cpath'
-local function print_package_path(kind)
-	kind = kind or "path"
-	print(string.format("-------------------- ulf.doc.gendocs.loader: %05s --------------------\n", kind))
-	local path_list = split(package[kind], ";")
-	for index, path in
-		ipairs(path_list --[[@as string[] ]])
-	do
-		print(string.format("%02d: %s", index, path))
-	end
-	print("-----------------------------------------------------------------------\n\n")
-end
+local Debug = require("ulf.doc.util.debug")
 
 ---@param dev boolean
 function M.init(dev)
@@ -31,7 +8,12 @@ function M.init(dev)
 		dev = false
 	end
 
+	local ulf_debug = os.getenv("ULF_DOC_DEBUG") or false
 	local root = os.getenv("PWD")
+
+	if not root:match("ulf%.doc$") then
+		root = root .. "/deps/ulf.doc"
+	end
 	local path = function(s)
 		return root .. s
 	end
@@ -63,7 +45,9 @@ function M.init(dev)
 		package.cpath = package.cpath .. ";" .. dir
 	end
 
-	-- print_package_path("cpath")
+	if ulf_debug then
+		Debug.dump_lua_path("all")
+	end
 end
 
 ---@type ulf.doc.ConfigOptions

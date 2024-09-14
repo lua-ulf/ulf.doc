@@ -19,6 +19,9 @@ dependencies = {
 	"lua >= 5.1",
 	"inspect",
 	"lua_cliargs",
+	-- "cjson",
+	"dkjson",
+	"tabular",
 }
 build = {
 	type = "builtin",

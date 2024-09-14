@@ -10,7 +10,7 @@
 ---
 ---@brief ]]
 ---@tag ulf.doc.gendocs
----@config { ["name"] = "GENDOCS" }
+---@config { ["name"] = "Gendocs" }
 ---
 ---@class ulf.doc.gendocs.exports
 local M = {}

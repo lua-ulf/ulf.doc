@@ -1,3 +1,10 @@
+---@brief [[
+--- ulf.doc.gendocs.config is the config module for the gendocs module.
+---
+---@brief ]]
+---@tag ulf.doc.gendocs.config
+---@config { ["name"] = "Config" }
+---
 ---@class ulf.doc.config
 local M = {}
 
@@ -8,7 +15,13 @@ local tbl_deep_extend = _table.tbl_deep_extend
 
 ---@class ulf.doc.ConfigOptions
 ---@field package_root fun(self:ulf.doc.ConfigOptions,name:string)
+---@field gendocs {files:string?,app:string?}
 local Defaults = {
+	gendocs = {
+
+		files = "",
+		app = "",
+	},
 	ulf = {
 		package = "doc",
 		stdpath = {
@@ -25,8 +38,7 @@ local Defaults = {
 			---@param config ulf.doc.ConfigOptions
 			config = function(plugin, config)
 				assert(uv.chdir(plugin.package_root))
-				local result = require("ulf.doc.util.core").run_command({
-					"make",
+				local result = require("ulf.doc.util.core").run_command("make", {
 					"dist",
 				})
 				print(result)
@@ -34,6 +46,30 @@ local Defaults = {
 		},
 	},
 }
+
+function M.filename()
+	return fs.joinpath(fs.git_root(), ".ulf-gendocs.json")
+end
+
+---comment
+---@param path_config? string
+---@return ulf.doc.ConfigOptions
+function M.load(path_config)
+	local json = require("ulf.doc.util.json").setup()
+	path_config = path_config or M.filename()
+	print("[ulf.doc.gendocs.config]: loading config '" .. tostring(path_config) .. "'")
+
+	---@type ulf.doc.gendocs.cliargs
+	local config = {} ---@diagnostic disable-line: missing-fields
+	if fs.file_exists(path_config) then
+		local data = fs.read_file(path_config)
+		config = json.decode(data)
+	end
+
+	M.setup(config)
+
+	return M.options
+end
 
 ---@type ulf.doc.ConfigOptions
 M.options = nil
