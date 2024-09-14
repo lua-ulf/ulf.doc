@@ -1,0 +1,6 @@
+{
+  "gendocs": {
+    "files": "lua/ulf/doc/init.lua,lua/ulf/doc/gendocs/init.lua,lua/ulf/doc/gendocs/config.lua,lua/ulf/doc/gendocs/cli.lua",
+    "app": "ulf.doc"
+  }
+}
