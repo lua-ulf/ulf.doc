@@ -49,5 +49,8 @@ args = {
 local result = Util.core.run_command_simple(cmd, args, {
 	error_parser = function(...) end,
 })
+
+local VimProcess = require("ulf.vim.spawn")
+
 -- P(result)
 -- validator.counter_output(result, {}, { max_wait_time_ms = 1000 })

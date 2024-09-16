@@ -41,7 +41,6 @@ build = {
 test_dependencies = {
 	"busted",
 	"busted-htest",
-	"nlua",
 	"luacov",
 	"luacov-html",
 	"luacov-multiple",

@@ -19,7 +19,7 @@ function M.inspect(...)
 	if vim then
 		inspect = vim.inspect
 	else
-		local ok, mod = pcall(require, "inspect") ---@diagnostic disable-line: no-unknown
+		local ok, mod = pcall(require, "ulf.lib.inspect") ---@diagnostic disable-line: no-unknown
 		if ok then
 			---@type fun(...)
 			inspect = mod
